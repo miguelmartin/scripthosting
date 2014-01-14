@@ -35,7 +35,7 @@ for linea2 in lineas2:
         ficheroinversa.write(linea2)
 ficheroinversa.close()
 
-#os.system("service bind9 restart")
+os.system("service bind9 restart")
 
 #Creamos el nuevo virtualhost y directorio web
 
