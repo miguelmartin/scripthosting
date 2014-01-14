@@ -1,0 +1,12 @@
+; Archivo BIND para zona domain_name             
+; 
+$TTL    604800 
+@       IN      SOA     domain_name. hostmaster.domain_name. ( 
+                        231120131217        ; Serial 
+                         604800         ; Refresh 
+                          86400         ; Retry 
+                        2419200         ; Expire 
+                         604800 )       ; Negative Cache TTL 
+
+                IN      NS servidor.domain_name. 
+www             IN      A       192.168.100.1
