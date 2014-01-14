@@ -1,7 +1,7 @@
 # ­*­ coding: utf­8 ­*­
 import os
 import sys
-
+import shutil
 user_name = sys.argv[1]
 
 domain_name = sys.argv[2]
@@ -35,11 +35,11 @@ for linea2 in lineas2:
         ficheroinversa.write(linea2)
 ficheroinversa.close()
 
-os.system("service bind9 restart")
+#os.system("service bind9 restart")
 
 #Creamos el nuevo virtualhost y directorio web
 
-os.mkdir("/var/"+domain_name+"")
+shutil.copytree("/home/usuario/scripthosting/html" , "/var/"+domain_name+"/")
 
 plantillahost = open("plantillahost","r")
 lineas3 = plantillahost.readlines()
@@ -49,5 +49,5 @@ for linea3 in lineas3:
         linea3 = linea3.replace('domain_name',domain_name)
         ficherohost.write(linea3)
 ficherohost.close()
-
+os.system("a2ensite "+domain_name+"")
 os.system("service apache2 restart")
