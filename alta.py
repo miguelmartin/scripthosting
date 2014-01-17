@@ -39,7 +39,7 @@ os.system("service bind9 restart")
 
 #Creamos el nuevo virtualhost y directorio web
 
-shutil.copytree("/home/usuario/scripthosting/html" , "/var/"+domain_name+"/")
+shutil.copytree("html" , "/var/"+domain_name+"/")
 
 plantillahost = open("plantillahost","r")
 lineas3 = plantillahost.readlines()
