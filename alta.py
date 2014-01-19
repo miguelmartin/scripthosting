@@ -17,7 +17,7 @@ db=base_de_datos)
 
 cursor = db.cursor()
 
-mi_query = "SELECT NOMBRE FROM USUARIOS WHERE NOMBRE="+"'"+user_name+"'"
+mi_query = "SELECT username FROM usuarios WHERE username="+"'"+user_name+"'"
 
 
 cursor.execute(mi_query)
