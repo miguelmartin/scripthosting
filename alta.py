@@ -3,6 +3,7 @@ import os
 import sys
 import shutil
 import MySQLdb
+import getpass
 user_name = sys.argv[1]
 
 domain_name = sys.argv[2]
@@ -26,7 +27,7 @@ usuarioexistente = cursor.fetchall()[0][0]
 if usuarioexistente[0][0] == user_name:
         print "Ya existe el usuario no se dara de alta"
         exit()
-else:
+else:
 	print "El usuario no existe se procede a comprobar si existe el nombre de dominio"
 
 if os.path.exists("/var/www/"+domain_name+""):
@@ -34,6 +35,13 @@ if os.path.exists("/var/www/"+domain_name+""):
 	exit()
 else:
 	print "El usuario y dominio introducidos son correctos, se procede a dar de alta..."
+
+#Creamos usuarios
+pass_user = getpass.getpass()
+
+mi_insert = "INSERT INTO usuarios VALUES ("+"'"+user_name+"', md5("+"'"+pass_user+"'),'5001', '6001', '/srv/www/"+domain_name+"', '/bin/false', '1');"
+
+cursor.execute(mi_insert)
 
 #Añadimos al fichero /etc/bind/named.conf.local las zonas nuevas
 
