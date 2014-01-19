@@ -42,6 +42,8 @@ pass_user = getpass.getpass()
 mi_insert = "INSERT INTO usuarios VALUES ("+"'"+user_name+"', md5("+"'"+pass_user+"'),'5001', '6001', '/srv/www/"+domain_name+"', '/bin/false', '1');"
 
 cursor.execute(mi_insert)
+db.commit()
+db.close)
 
 #Añadimos al fichero /etc/bind/named.conf.local las zonas nuevas
 
