@@ -51,7 +51,7 @@ uidnuevo = uids[0][0]+1
 mi_insert = "INSERT INTO usuarios VALUES ("+"'"+user_name+"', md5("+"'"+pass_user+"'),"+"'"+uidnuevo+"','6001', '/srv/www/"+domain_name+"', '/bin/false', '1');"
 cursor.execute(mi_insert)
 db.commit()
-db.close)
+db.close()
 
 #Añadimos al fichero /etc/bind/named.conf.local las zonas nuevas
 linea1 = '\nzone ' +'"' +  domain_name +'"'  +'{\ntype master;\nfile "db.'+ domain_name +'"' +' ;\n}; '
