@@ -26,7 +26,6 @@ usuarioexistente = cursor.fetchall()[0][0]
 if usuarioexistente[0][0] == user_name:
         print "Ya existe el usuario"
         exit
-        cursor.close()
 else:
 	print "Se va a dar de alta el usuario"
 
