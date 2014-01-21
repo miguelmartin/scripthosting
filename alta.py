@@ -2,9 +2,33 @@
 import os
 import sys
 import shutil
+import MySQLdb
 user_name = sys.argv[1]
 
 domain_name = sys.argv[2]
+
+db_host = 'localhost'
+usuario = 'root'
+clave = 'usuario'
+base_de_datos = 'USUARIOS'
+
+db = MySQLdb.connect(host=db_host, user=usuario, passwd=clave,
+db=base_de_datos)
+
+cursor = db.cursor()
+
+mi_query = "SELECT NOMBRE FROM USUARIOS WHERE NOMBRE="+"'"+user_name+"'"
+
+
+cursor.execute(mi_query)
+usuarioexistente = cursor.fetchall()[0][0]
+
+if usuarioexistente[0][0] == user_name:
+        print "Ya existe el usuario"
+        exit
+        cursor.close()
+else:
+	print "Se va a dar de alta el usuario"
 
 #Añadimos al fichero /etc/bind/named.conf.local las zonas nuevas
 
