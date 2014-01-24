@@ -55,7 +55,7 @@ db.close)
 
 #Añadimos al fichero /etc/bind/named.conf.local las zonas nuevas
 linea1 = '\nzone ' +'"' +  domain_name +'"'  +'{\ntype master;\nfile "db.'+ domain_name +'"' +' ;\n}; '
-linea2 = '\nzone "45.168.192.in-addr-arpa" {\ntype master;\nfile "db.45.168.192";\n};\n'
+linea2 = '\nzone ' +'"' +  domain_name +''  +'.in-addr-arpa" {\ntype master;\nfile ' +'"' +  domain_name +'.inver"'  +';\n};\n'
 fichero = open("/etc/bind/named.conf.local","a")
 fichero.write(linea1) 
 fichero.write(linea2)
@@ -74,7 +74,7 @@ ficherozona.close()
 plantillainversa = open("plantillainversa","r")
 lineas2 = plantillainversa.readlines()
 plantillainversa.close
-ficheroinversa = open("/var/cache/bind/db.45.168.192","w")
+ficheroinversa = open("/var/cache/bind/db."+domain_name+".inver","w")
 for linea2 in lineas2:
         linea2 = linea2.replace('domain_name',domain_name)
         ficheroinversa.write(linea2)
