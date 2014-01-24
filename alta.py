@@ -4,18 +4,22 @@ import sys
 import shutil
 import MySQLdb
 import getpass
+
 #Recibimos como argumentos el nombre del usuario y el del dominio nuevo
 user_name = sys.argv[1]
 domain_name = sys.argv[2]
+
 #Damos las credenciales para conectarnos a la base de datos
 db_host = 'localhost'
 usuario = 'root'
 clave = 'usuario'
 base_de_datos = 'USUARIOS'
+
 #Realizamos la conexión y reamos el cursor
 db = MySQLdb.connect(host=db_host, user=usuario, passwd=clave,
 db=base_de_datos)
 cursor = db.cursor()
+
 #Comprobamos si el nuevo usuario que queremos crear existe ya
 mi_query = "SELECT username FROM usuarios WHERE username="+"'"+user_name+"'"
 cursor.execute(mi_query)
@@ -26,6 +30,7 @@ if usuarioexistente[0][0] == user_name:
         exit()
 else:
 	print "El usuario no existe se procede a comprobar si existe el nombre de dominio"
+
 #Ahora una vez que se a comprobado que el usuario no existe se comprueba la existencia del dominio
 if os.path.exists("/var/www/"+domain_name+""):
 	print "El dominio ya esta en uso no se creara el usuario ni el dominio"
@@ -36,7 +41,7 @@ else:
 #Pedimos contraseña del nuevo usuario
 pass_user = getpass.getpass()
 
-#Consultamos los ultimos gid y uid para ponerle los nuevos al usuario
+#Consultamos el ultimo uid para ponerle los nuevos al usuario
 my_query2 = "select uid from usuarios order by uid desc limit 1;"
 cursor.execute(mi_query2)
 uids = cursor.fetchall()
