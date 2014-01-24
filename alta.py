@@ -24,7 +24,7 @@ cursor.execute(mi_query)
 usuarioexistente = cursor.fetchall()[0][0]
 
 if usuarioexistente[0][0] == user_name:
-        print "Ya existe el usuario"
+        print "Ya existe el usuario no se dara de alta"
         exit()
 else:
 	print "El usuario no existe se procede a comprobar si existe el nombre de dominio"
@@ -32,6 +32,8 @@ else:
 if os.path.exists("/var/www/"+domain_name+""):
 	print "El dominio ya esta en uso no se creara el usuario ni el dominio"
 	exit()
+else:
+	print "El usuario y dominio introducidos son correctos, se procede a dar de alta..."
 
 #Añadimos al fichero /etc/bind/named.conf.local las zonas nuevas
 
