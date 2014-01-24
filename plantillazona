@@ -9,4 +9,7 @@ $TTL    604800
                          604800 )       ; Negative Cache TTL 
 
                 IN      NS servidor.domain_name. 
-www             IN      A       192.168.100.1
+servidor	IN      A       192.168.100.1
+www		CNAME		servidor		
+ftp		CNAME		servidor
+mysql		CNAME		servidor
