@@ -1,7 +1,7 @@
 <VirtualHost *:80>
 	ServerAdmin user_name@domain_name
-	ServerName  www.domain_name
-	DocumentRoot /var/domain_name
+	ServerName  domain_name
+	DocumentRoot /srv/www/domain_name
 	<Directory />
 		Options FollowSymLinks
 		AllowOverride All
