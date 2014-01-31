@@ -11,9 +11,9 @@ domain_name = sys.argv[2]
 
 #Damos las credenciales para conectarnos a la base de datos
 db_host = 'localhost'
-usuario = 'root'
+usuario = 'proftp'
 clave = 'usuario'
-base_de_datos = 'USUARIOS'
+base_de_datos = 'proftpd'
 
 #Realizamos la conexión y reamos el cursor
 db = MySQLdb.connect(host=db_host, user=usuario, passwd=clave,
@@ -21,11 +21,11 @@ db=base_de_datos)
 cursor = db.cursor()
 
 #Comprobamos si el nuevo usuario que queremos crear existe ya
-mi_query = "SELECT username FROM usuarios WHERE username="+"'"+user_name+"'"
+mi_query = "SELECT userid FROM ftpuser WHERE userid="+"'"+user_name+"'"
 cursor.execute(mi_query)
-usuarioexistente = cursor.fetchall()[0][0]
+usuarioexistente = cursor.fetchall()
 
-if usuarioexistente[0][0] == user_name:
+if usuarioexistente != () :
         print "Ya existe el usuario no se dara de alta"
         exit()
 else:
@@ -40,15 +40,16 @@ else:
 
 #Pedimos contraseña del nuevo usuario
 pass_user = getpass.getpass()
-
+print "Tu contraseña nueva es: "+pass_user
 #Consultamos el ultimo uid para ponerle los nuevos al usuario
-my_query2 = "select uid from usuarios order by uid desc limit 1;"
-cursor.execute(mi_query2)
+my_query2 = "select uid from ftpuser order by uid desc limit 1;"
+cursor.execute(my_query2)
 uids = cursor.fetchall()
 uidnuevo = uids[0][0]+1
-
+uidnuevo = str(uidnuevo)
 #Creamos el nuevo usuario en la base de datos
-mi_insert = "INSERT INTO usuarios VALUES ("+"'"+user_name+"', md5("+"'"+pass_user+"'),"+"'"+uidnuevo+"','6001', '/srv/www/"+domain_name+"', '/bin/false', '1');"
+print "Creando nuevo usuario..."
+mi_insert = "INSERT INTO `ftpuser` VALUES ('', "+"'"+user_name+"', ENCRYPT("+"'"+pass_user+"'), "+"'"+uidnuevo+"', 2001, '/srv/www/"+domain_name+"', '/sbin/nologin', 0, '', '');"
 cursor.execute(mi_insert)
 db.commit()
 db.close()
@@ -83,7 +84,7 @@ ficheroinversa.close()
 os.system("service bind9 restart")
 
 #Creamos el nuevo virtualhost y directorio web
-shutil.copytree("html" , "/var/"+domain_name+"/")
+shutil.copytree("html" , "/srv/www/"+domain_name+"/")
 
 plantillahost = open("plantillahost","r")
 lineas3 = plantillahost.readlines()
