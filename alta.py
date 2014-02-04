@@ -11,7 +11,7 @@ domain_name = sys.argv[2]
 
 #Damos las credenciales para conectarnos a la base de datos
 db_host = 'localhost'
-usuario = 'proftp'
+usuario = 'root'
 clave = 'usuario'
 base_de_datos = 'proftpd'
 
@@ -32,12 +32,12 @@ else:
 	print "El usuario no existe se procede a comprobar si existe el nombre de dominio"
 
 #Ahora una vez que se a comprobado que el usuario no existe se comprueba la existencia del dominio
-if os.path.exists("/var/www/"+domain_name+""):
+if os.path.exists("/srv/www/"+domain_name+""):
 	print "El dominio ya esta en uso no se creara el usuario ni el dominio"
 	exit()
 else:
 	print "El usuario y dominio introducidos son correctos, se procede a dar de alta..."
-
+	print domain_name
 #Pedimos contraseña del nuevo usuario
 pass_user = getpass.getpass()
 print "Tu contraseña nueva es: "+pass_user
