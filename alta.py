@@ -57,7 +57,7 @@ db.commit()
 db.close()
 
 #Añadimos al fichero /etc/bind/named.conf.local las zonas nuevas
-linea1 = '\nzone ' +'"' +  domain_name +'"'  +'{\ntype master;\nfile "db.'+ domain_name +'"' +' ;\n}; '
+linea1 = '\nzone ' +'"' +  domain_name +'"'  +'{\ntype master;\nfile "db.'+ domain_name +'"' +';\n}; '
 fichero = open("/etc/bind/named.conf.local","a")
 fichero.write(linea1) 
 fichero.close 
@@ -72,8 +72,6 @@ for linea in lineas:
 	ficherozona.write(linea)
 ficherozona.close()
 	
-os.system("service bind9 restart")
-
 #Creamos el nuevo virtualhost y directorio web
 shutil.copytree("html" , "/srv/www/"+domain_name+"/")
 
@@ -87,3 +85,5 @@ for linea3 in lineas3:
 ficherohost.close()
 os.system("a2ensite "+domain_name+"")
 os.system("service apache2 restart")
+os.system("/etc/init.d/bind9 restart")
+
