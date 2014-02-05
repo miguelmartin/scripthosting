@@ -1,7 +1,7 @@
 ; Archivo BIND para zona domain_name             
 ; 
 $TTL    604800 
-@       IN      SOA     domain_name. hostmaster.domain_name. ( 
+@       IN      SOA     servidor.domain_name. hostmaster.domain_name. ( 
                         231120131217        ; Serial 
                          604800         ; Refresh 
                           86400         ; Retry 
