@@ -95,6 +95,7 @@ for linea4 in lineas4:
         linea4 = linea4.replace('domain_name',domain_name)
         ficheromysql.write(linea4)
 ficheromysql.close()
+os.system("a2ensite mysql."+domain_name+"> /dev/null")
 os.system("a2ensite "+domain_name+"> /dev/null")
 os.system("service apache2 restart > /dev/null")
 os.system("/etc/init.d/bind9 start > /dev/null")
