@@ -1,6 +1,38 @@
 # ­*­ coding: utf­8 ­*­
 import os
 import sys
-
+import shutil
+import MySQLdb
+import getpass
+import string
+from random import choice
+#Recibimos como argumentos el nombre del usuario y el del dominio nuevo
 domain_name = sys.argv[1]
 
+#Comprobamos que el domino que se quiere dar de baja existe
+if os.path.exists("/srv/www/"+domain_name+""):
+	print "El dominio existe y se procede a borrarlo"
+else:
+	print "El dominio que quiere dar de bajo no existe"
+	exit()
+#Damos las credenciales para conectarnos a la base de datos
+db_host = 'localhost'
+usuario = 'root'
+clave = 'usuario'
+base_de_datos = 'proftpd'
+
+#Realizamos la conexión y reamos el cursor
+db = MySQLdb.connect(host=db_host, user=usuario, passwd=clave,
+db=base_de_datos)
+cursor = db.cursor()
+#Borramos el usuario de mysql y el usuario ftp
+print "Borrando usuario..."
+select_user_name = "select userid from ftpuser where homedir like '%"+domain_name+"%';"
+cursor.execute(select_user_name)
+user_name = cursor.fetchall()
+mi_insert = "delete from ftpuser where homedir like '%"+domain_name+"%';"
+cursor.execute(mi_insert)
+crear_usuario = ""';"
+cursor.execute(crear_usuario)
+db.commit()
+db.close()
