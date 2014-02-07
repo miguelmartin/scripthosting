@@ -29,10 +29,21 @@ cursor = db.cursor()
 print "Borrando usuario..."
 select_user_name = "select userid from ftpuser where homedir like '%"+domain_name+"%';"
 cursor.execute(select_user_name)
-user_name = cursor.fetchall()
+user_name = cursor.fetchall()[0][0]
+
 mi_insert = "delete from ftpuser where homedir like '%"+domain_name+"%';"
 cursor.execute(mi_insert)
-crear_usuario = ""';"
-cursor.execute(crear_usuario)
+borrar_usuario = "drop user "+use_name+""@localhost ;"
+cursor.execute(borrar_usuario)
 db.commit()
 db.close()
+#Borrar ficheros DNS
+os.remove("/var/cache/bind/db."+domain_name+"")
+os.remove("/srv/www/"+domain_name+"")
+os.remove ("/etc/apache2/sites-available/"+domain_name+"")
+os.remove ("/etc/apache2/sites-available/mysql."+domain_name+"")
+#Reiniciamos los servicios
+os.system("a2dissite mysql."+domain_name+"> /dev/null")
+os.system("a2dissite "+domain_name+"> /dev/null")
+os.system("service apache2 restart > /dev/null")
+os.system("/etc/init.d/bind9 restart > /dev/null")
