@@ -4,7 +4,8 @@ import sys
 import shutil
 import MySQLdb
 import getpass
-
+import string
+from random import choice
 #Recibimos como argumentos el nombre del usuario y el del dominio nuevo
 user_name = sys.argv[1]
 domain_name = sys.argv[2]
@@ -38,8 +39,10 @@ if os.path.exists("/srv/www/"+domain_name+""):
 else:
 	print "El usuario y dominio introducidos son correctos, se procede a dar de alta..."
 	print domain_name
-#Pedimos contraseña del nuevo usuario
-pass_user = getpass.getpass()
+#Generamos la contraseña y la pedimos por pantalla
+def genpasswd(n):
+	return ''.join([choice(string.letters + string.digits) for i in range(n)])
+pass_user = genpasswd(8)
 print "Tu contraseña nueva es: "+pass_user
 #Consultamos el ultimo uid para ponerle los nuevos al usuario
 my_query2 = "select uid from ftpuser order by uid desc limit 1;"
@@ -60,12 +63,12 @@ db.close()
 linea1 = '\nzone ' +'"' +  domain_name +'"'  +'{\ntype master;\nfile "db.'+ domain_name +'"' +';\n}; '
 fichero = open("/etc/bind/named.conf.local","a")
 fichero.write(linea1) 
-fichero.close 
+fichero.close() 
 
 #Creamos los ficheros de las zonas nuevas
 plantillazona = open("plantillazona","r")
 lineas = plantillazona.readlines() 
-plantillazona.close
+plantillazona.close()
 ficherozona = open("/var/cache/bind/db."+domain_name+"","w")
 for linea in lineas:
 	linea = linea.replace('domain_name',domain_name)
@@ -77,13 +80,22 @@ shutil.copytree("html" , "/srv/www/"+domain_name+"/")
 
 plantillahost = open("plantillahost","r")
 lineas3 = plantillahost.readlines()
-plantillahost.close
+plantillahost.close()
 ficherohost = open("/etc/apache2/sites-available/"+domain_name+"","w")
 for linea3 in lineas3:
         linea3 = linea3.replace('domain_name',domain_name)
         ficherohost.write(linea3)
 ficherohost.close()
-os.system("a2ensite "+domain_name+"")
-os.system("service apache2 restart")
-os.system("/etc/init.d/bind9 restart")
-
+#Creamos el virtualhost para phpmyadmin
+plantillamysql = open("mysqlvh","r")
+lineas4 = plantillamysql.readlines()
+plantillamysql.close()
+ficheromysql = open("/etc/apache2/sites-available/mysql."+domain_name+"","w")
+for linea4 in lineas4:
+        linea4 = linea4.replace('domain_name',domain_name)
+        ficheromysql.write(linea4)
+ficheromysql.close()
+os.system("a2ensite "+domain_name+"> /dev/null")
+os.system("service apache2 restart > /dev/null")
+os.system("/etc/init.d/bind9 start > /dev/null")
+os.system("/etc/init.d/bind9 reload > /dev/null")
