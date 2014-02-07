@@ -33,13 +33,13 @@ user_name = cursor.fetchall()[0][0]
 
 mi_insert = "delete from ftpuser where homedir like '%"+domain_name+"%';"
 cursor.execute(mi_insert)
-borrar_usuario = "drop user "+use_name+""@localhost ;"
+borrar_usuario = "drop user "+user_name+"@localhost ;"
 cursor.execute(borrar_usuario)
 db.commit()
 db.close()
 #Borrar ficheros DNS
 os.remove("/var/cache/bind/db."+domain_name+"")
-os.remove("/srv/www/"+domain_name+"")
+shutil.rmtree("/srv/www/"+domain_name+"")
 os.remove ("/etc/apache2/sites-available/"+domain_name+"")
 os.remove ("/etc/apache2/sites-available/mysql."+domain_name+"")
 #Reiniciamos los servicios
