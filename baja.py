@@ -33,37 +33,16 @@ user_name = cursor.fetchall()[0][0]
 
 mi_insert = "delete from ftpuser where homedir like '%"+domain_name+"%';"
 cursor.execute(mi_insert)
-borrar_usuario = "drop user "+use_name+""@localhost ;"
+borrar_usuario = "drop user "+user_name+"@localhost ;"
 cursor.execute(borrar_usuario)
 db.commit()
 db.close()
 #Borrar ficheros DNS
 os.remove("/var/cache/bind/db."+domain_name+"")
-os.remove("/srv/www/"+domain_name+"")
+os.system("rm -r /srv/www/"+domain_name+"")
 #Fichero named.conf.local
-fichero_named = open("/etc/bind/named.conf.local","r")
-lineas = fichero_named.readlines()
-fichero_named.close()
-os.remove("/etc/bind/named.conf.local")
-
-count = 0
-numerolinea = 0
-
-for linea in lineas:
-        count = count+1
-        if linea.find('zone "'+domain_name+'" {') == 0:
-                numerolinea = count
-                print "se a encontrado el nombre"
-
-count2 = 0
-for linea in lineas:
-        count2 = count2+1
-        if count2 >= numerolinea and count2 <= numerolinea+3 :
-                linea = ""
-ficherodnsnuevo = open("/etc/bind/named.conf.local","w")
-for linea in lineas:
-        ficherodnsnuevo.write(linea)
-
+os.system("sed '/zone " + '"%s"'% domain_name + "/,/};/d' /etc/bind/named.conf.local > temporal")
+os.system("mv temporal /etc/bind/named.conf.local")
 #Borrar ficheros apache
 os.remove ("/etc/apache2/sites-available/"+domain_name+"")
 os.remove ("/etc/apache2/sites-available/mysql."+domain_name+"")
