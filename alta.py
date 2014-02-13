@@ -77,8 +77,8 @@ ficherozona.close()
 	
 #Creamos el nuevo virtualhost y directorio web
 shutil.copytree("html" , "/srv/www/"+domain_name+"/")
-os.system("chown "+uidnuevo+":2001 /srv/www/"+domain_name+"")
-os.system("chmod 755 /srv/www/"+domain_name+"")
+os.system("chown -R "+uidnuevo+":2001 /srv/www/"+domain_name+"")
+os.system("chmod -R 755 /srv/www/"+domain_name+"")
 
 plantillahost = open("plantillahost","r")
 lineas3 = plantillahost.readlines()
