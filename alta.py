@@ -44,7 +44,8 @@ def genpasswd(n):
 	return ''.join([choice(string.letters + string.digits) for i in range(n)])
 pass_user = genpasswd(8)
 pass_usermy = genpasswd(8)
-print "Tu contraseña nueva es: "+pass_user
+print "Tu contraseña nueva de ftp es: "+pass_user
+print "Tu contraseña nueva de MySQL es:"+pass_usermy
 #Consultamos el ultimo uid para ponerle los nuevos al usuario
 my_query2 = "select uid from ftpuser order by uid desc limit 1;"
 cursor.execute(my_query2)
