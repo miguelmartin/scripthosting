@@ -43,6 +43,7 @@ else:
 def genpasswd(n):
 	return ''.join([choice(string.letters + string.digits) for i in range(n)])
 pass_user = genpasswd(8)
+pass_usermy = genpasswd(8)
 print "Tu contraseña nueva es: "+pass_user
 #Consultamos el ultimo uid para ponerle los nuevos al usuario
 my_query2 = "select uid from ftpuser order by uid desc limit 1;"
@@ -54,7 +55,7 @@ uidnuevo = str(uidnuevo)
 print "Creando nuevo usuario..."
 mi_insert = "INSERT INTO `ftpuser` VALUES ('', "+"'"+user_name+"', ENCRYPT("+"'"+pass_user+"'), "+"'"+uidnuevo+"', 2001, '/srv/www/"+domain_name+"', '/sbin/nologin', 0, '', '');"
 cursor.execute(mi_insert)
-crear_usuario = "GRANT ALL ON "+user_name+".* TO "+user_name+"@localhost IDENTIFIED BY "+"'"+pass_user+"';"
+crear_usuario = "GRANT ALL ON my"+user_name+".* TO "+user_name+"@localhost IDENTIFIED BY "+"'"+pass_usermy+"';"
 cursor.execute(crear_usuario)
 db.commit()
 db.close()
