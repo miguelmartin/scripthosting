@@ -33,7 +33,7 @@ user_name = cursor.fetchall()[0][0]
 
 mi_insert = "delete from ftpuser where homedir like '%"+domain_name+"%';"
 cursor.execute(mi_insert)
-borrar_usuario = "drop user "+user_name+"@localhost ;"
+borrar_usuario = "drop user my"+user_name+"@localhost ;"
 cursor.execute(borrar_usuario)
 db.commit()
 db.close()
