@@ -56,7 +56,9 @@ uidnuevo = str(uidnuevo)
 print "Creando nuevo usuario..."
 mi_insert = "INSERT INTO `ftpuser` VALUES ('', "+"'"+user_name+"', ENCRYPT("+"'"+pass_user+"'), "+"'"+uidnuevo+"', 2001, '/srv/www/"+domain_name+"', '/sbin/nologin', 0, '', '');"
 cursor.execute(mi_insert)
-crear_usuario = "GRANT ALL ON my"+user_name+".* TO "+user_name+"@localhost IDENTIFIED BY "+"'"+pass_usermy+"';"
+crear_base = "CREATE DATABASE my"+user_name
+crear_usuario = "GRANT ALL ON my"+user_name+" TO my"+user_name+"@localhost IDENTIFIED BY "+"'"+pass_usermy+"';"
+cursor.execute(crear_base)
 cursor.execute(crear_usuario)
 db.commit()
 db.close()
