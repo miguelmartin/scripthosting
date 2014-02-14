@@ -8,11 +8,14 @@ user_name=(sys.argv[2])
 passwdnew=(sys.argv[3])
 
 if opcion == "-mysql":
-        host = MySQLdb.connect(host="localhost", user="root", passwd="usuario", db="proftpd")
+        host = MySQLdb.connect(host="localhost", user="root", passwd="usuario", db="mysql")
         cursor=host.cursor()
-        queryuser="select userid from ftpuser where userid='"+user_name+"';"
+        queryuser="select user from user where user='"+user_name+"';"
         cursor.execute(queryuser)
         resultado = cursor.fetchone()
+	if resultado == None:
+		print "Usuario incorrecto"
+		exit()
         if resultado[0] == user_name:
                 changuepasswd="SET PASSWORD FOR "+user_name+"@localhost = PASSWORD('"+passwdnew+"');"
                 cursor.execute(changuepasswd)
