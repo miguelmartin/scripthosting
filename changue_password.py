@@ -23,3 +23,18 @@ if opcion == "-mysql":
                	exit()
 
 elif opcion == "-ftp":
+        host = MySQLdb.connect(host="localhost", user="root", passwd="usuario", db="proftpd")
+        cursor=host.cursor()
+        queryuser="select userid from ftpuser where userid='"+user_name+"';"
+        cursor.execute(queryuser)
+        resultado = cursor.fetchone()
+        if resultado[0]== user_name:
+                querypasswd="Update ftpuser set passwd = ENCRYPT('"+passwdnew+"')where userid='"+user_name+"';"
+                cursor.execute(querypasswd)
+                host.commit()
+                print "Se ha actualizado la contraseña FTP"
+        else:
+                print "El usuario introducido no existe"
+else:
+        print "No selecciono ninguna accion"
+
