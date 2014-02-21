@@ -1,7 +1,7 @@
 <VirtualHost *:80>
-        ServerName subdomain_name.domain_name
-        DocumentRoot directorio_domain/subdominio/subdomain_name
-        <Directory directorio_domain/subdominio/subdomain_name>
+        ServerName sub_nombre.domprincipal
+        DocumentRoot directorio/subdominio/sub_nombre
+        <Directory directorio/subdominio/sub_nombre>
                 Options Indexes FollowSymLinks MultiViews
                 AllowOverride None
                 Order allow,deny
