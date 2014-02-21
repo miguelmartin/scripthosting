@@ -1,0 +1,10 @@
+<VirtualHost *:80>
+        ServerName subdomain_name.domain_name
+        DocumentRoot directorio_domain/subdominio/subdomain_name
+        <Directory directorio_domain/subdominio/subdomain_name>
+                Options Indexes FollowSymLinks MultiViews
+                AllowOverride None
+                Order allow,deny
+                allow from all
+        </Directory>
+</VirtualHost>
